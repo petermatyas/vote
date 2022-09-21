@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<style>
+  input[type="radio"] {
+    width: 800px;
+    height: 100px;
+    border-radius: 100px;
+    border: 2px solid #DE004A;
+    background-color: #131517;
+    -webkit-appearance: none; /*to disable the default appearance of radio button*/
+    -moz-appearance: none;
+  }
+  
+  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+    outline: none; /*to remove the square border on focus*/
+  }
+  
+  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+    background-color: #DE004A;
+  }
+  
+  input[type="radio"]:checked ~ span:first-of-type {
+    color: black;
+  }
+  
+  
+  
+  
+  .label_alternate {
+    position: relative;
+    display: flex;
+    align-items: left;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 50px;
+      color: #FFF;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    vertical-align: middle;
+  }
+  .td_alternate {
+    font-family: sans-serif;
+    font-size: 50px;
+    color: #FFF;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  .btn-alpha {
+    display: flex;
+    
+    justify-content: center;
+    font-family: sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    background: #0B70DF;
+    color: #FFF;
+    letter-spacing: 1px;
+    line-height: 100px;
+    width: 800px;
+    border: 2px solid #0B70DF;
+    border-radius: 200px;
+    transition: all 0.3s ease 0s;
+  }
+  
+  .btn-alpa:hover {
+    color: #FFF;
+    background: #0964c588;
+    border: 2px solid #0964c588;
+  }
+  .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+  }
+  
+  .box div {
+    width: 100%;
+    height: 100%;
+    
+  }
+  .image_style {
+    width: 800px;
+    
+  }
+  
+</style>
+<html lang="en">
+  <head>
+    <div class="box">
+      <img class="image_style"  src="https://szombathely2030.hu/wp-content/uploads/2020/12/cropped-cropped-Szombathely2030_bigicons_white_PNG.png"alt="SVG">
+    </div>
+    
+    <title>Szombathely 2030 admin oldal</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script>
+      fetch('http://localhost:5000/api/votetime')
+          .then(res => res.json())
+          .then((out) => {
+              if (out == 0) {
+                //<input type="submit" class="btn btn-primary" value="Kezdődjön" ></input>
+                document.querySelector('#startStopBtn').value = 'Kezdődjön';
+              } else {
+                //<input type="submit" class="btn btn-primary" value="Vége" ></input>
+                document.querySelector('#startStopBtn').value = 'Vége';
+              }
+      }).catch(err => console.error('Error:', err));
+    </script>
+
+
+  </head>
+  <body style="background-color: #131517!important;">
+    <div class="box">
+      <h1 class="label_alternate">Szombathely 2030 admin oldal</h1>
+    </div>  
+  
+    <div class="container">
+      <div class="box">  
+        <div class="box">
+          <form action="/admin" method="POST">
+            <div id="choose">
+              <input type="submit" class="btn-alpha" value="<%= startstopBtn %>" ></input>
+            </div>
+      
+            
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container" style="margin-top: 5%">
+      <div class="box">
+        <div class="td_alternate">
+          <table id="resultTable" class="table" style="text-align: center;">
+            <tr>
+              
+                <td>Név</td>
+                <td>Szavazat</td>
+              
+            </tr>  
+          </table>
+        </div>
+      </div>   
+          <script>
+            var table = document.getElementById("resultTable");
+            fetch('http://<%= ip %>:5000/api/summary')
+                .then(res => res.json())
+                .then((out) => {
+                    for (var i=0; i<out.length; i++) {
+                      var row = table.insertRow(-1);
+                      var cell1 = row.insertCell(0);
+                      var cell2 = row.insertCell(1);
+                      cell1.innerHTML = out[i].name;
+                      cell2.innerHTML = out[i].votes;
+                    }
+            }).catch(err => console.error('Error:', err));
+          </script>
+
+    </div>
+
+
+
+
+    
+
+  </body>
+</html>

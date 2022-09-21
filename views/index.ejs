@@ -1,77 +1,138 @@
 <!DOCTYPE html>
+<style>
+  
+input[type="radio"] {
+    width: 800px;
+    height: 100px;
+    border-radius: 100px;
+    border: 2px solid #DE004A;
+    background-color: #131517;
+    -webkit-appearance: none; /*to disable the default appearance of radio button*/
+    -moz-appearance: none;
+  }
+  
+  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+    outline: none; /*to remove the square border on focus*/
+  }
+  
+  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+    background-color: #DE004A;
+  }
+  
+  input[type="radio"]:checked ~ span:first-of-type {
+    color: black;
+  }
+  
+  
+  
+  
+  .label_alternate {
+    position: relative;
+    display: flex;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 50px;
+      color: #FFF;
+    top: -85px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .btn-alpha {
+    display: flex;
+    
+    justify-content: center;
+    font-family: sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    background: #0B70DF;
+    color: #FFF;
+    letter-spacing: 1px;
+    line-height: 100px;
+    width: 800px;
+    border: 2px solid #0B70DF;
+    border-radius: 200px;
+    transition: all 0.3s ease 0s;
+  }
+  
+  .btn-alpa:hover {
+    color: #FFF;
+    background: #0964c588;
+    border: 2px solid #0964c588;
+  }
+  .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 200px;
+    
+  }
+  
+  .box div {
+    width: 100%;
+    height: 100%;
+    margin-bottom: -50px;
+  }
+  .box h1{
+    width: 100%;
+    height: 100%;
+    
+  }
+  .image_style {
+    width: 800px;
+    
+  }
+  
+</style>
 <html lang="en">
   <head>
-    <title>Node JS Express Form Submission Example - ItSolutionStuff.com</title>
+    <title>Szombathely 2030 közönségszavazás</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Szavazás {qr_id}</h1>
+    
+    <h1 class="box">
+      <nav class="navbar navbar-light bg-light">
+          <a class="navbar-brand" href="#">
+              
+                <img class="image_style"  src="https://szombathely2030.hu/wp-content/uploads/2020/12/cropped-cropped-Szombathely2030_bigicons_white_PNG.png"alt="SVG">
+            </a>
+      </nav>
       
-      
+    </h1>
 
+  </head>
+  <body style="background-color:#131517!important">
+    <div class="container"> 
+      
+      
+    <div class="box">
       <form action="/" method="POST">
         <div id="choose"></div>
-        <input type="hidden" id="postId" name="id_qr" value=<%= qr_id %> ></input>
-        <input type="submit" class="btn btn-primary"></input>
+          <input type="hidden" id="postId" name="id_qr" value=<%= qr_id %> ></input>
+          <input type="submit" class="btn-alpha"></input>
       </form>
-
-
+    </div>
 
       <script>
         const queryString = window.location.search;
         console.log('-------------', queryString);
-        //var aa = {id_qr}
-        //console.log('-------------', aa)
-        //const form = document.getElementById("choose");
 
-
-        fetch('http://localhost:5000/api/participants')
+        fetch('http://<%= ip %>:5000/api/participants')
             .then(res => res.json())
             .then((out) => {
-                console.log('Output: ', out, out.data.length);
+                //console.log('Output: ', out, out.data.length);
                 for (var i = 0; i < out.data.length; i++) {
                   //console.log('-->',out.data[i].id, out.data[i].name);
                   
 
-                  output = `<input type="radio" class="btn btn-outline-success" name="selected" id="option`+out.data[i].id+ `" value="`+out.data[i].id+ `" autocomplete="off">
-                            <label class="btn btn-secondary" for="option`+out.data[i].id+ `">`+out.data[i].name+`</label>`
-                  //output = "<p>"+out.data[i].name+"</p>"
-                  //output = 'sdfsdfadasaaaaaaaaaaaaaaaaa'
+                  output = `<input type="radio" name="selected" id="option`+out.data[i].id+ `" value="`+out.data[i].id+ `" autocomplete="off" required="required">
+                  <div class="box"><label class="label_alternate" for="option`+out.data[i].id+ `">`+out.data[i].name+`</label> </div>`
                   document.getElementById("choose").innerHTML+=output;
                 }
-
-
         }).catch(err => console.error('Error:', err));
       </script>
 
-      <!--<script>
-        $.getJSON('http://localhost:5000/api/participants', function(data) {
-
-            console.log(data)
-    
-    
-            $(".mypanel").html('text');
-        });
-        </script>-->
-    
-
-
-
-      <!--<form action="/" method="POST">
-        <input type="radio" class="btn btn-outline-success" name="selected" id="option1" value="1" autocomplete="off">
-        <label class="btn btn-secondary" for="option2">Radio 1</label>
-
-        <input type="radio" class="btn btn-outline-success" name="selected" id="option2" value="2" autocomplete="off">
-        <label class="btn btn-secondary" for="option2">Radio 2</label>
-
-        <input type="radio" class="btn btn-outline-success" name="selected" id="option3" value="3" autocomplete="off">
-        <label class="btn btn-secondary" for="option2">Radio 3</label>
-
-        <input type="submit" class="btn btn-primary">Submit</input>
-      </form>-->
+      
   </body>
 </html>

@@ -1,0 +1,141 @@
+<style>
+    input[type="radio"] {
+  width: 800px;
+  height: 100px;
+  border-radius: 200px;
+  border: 2px solid #DE004A;
+  background-color: #131517;
+  -webkit-appearance: none; /*to disable the default appearance of radio button*/
+  -moz-appearance: none;
+}
+
+input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+  outline: none; /*to remove the square border on focus*/
+}
+
+input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+  background-color: #DE004A;
+}
+
+input[type="radio"]:checked ~ span:first-of-type {
+  color: white;
+}
+
+label span:first-of-type {
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins',Helvetica,Arial,Lucida,sans-serif;
+    font-size: 50px;
+    color: #FFF;
+  
+  
+}
+
+label span {
+  position: relative;
+  top: -80;
+  text-align: center;
+  vertical-align: middle;
+}
+.btn-danger {
+  display: flex;
+  
+  justify-content: center;
+  font-family: 'Poppins',Helvetica,Arial,Lucida,sans-serif;
+  font-size: 50px;
+  background: #0B70DF;
+  color: #FFF;
+  letter-spacing: 1px;
+  line-height: 100px;
+  width: 800px;
+  border: 2px solid #0B70DF;
+  border-radius: 200px;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-danger:hover {
+  color: #FFF;
+  background: #0b71dfc2;
+  border: 2px solid #0b71dfc2;
+}
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box div {
+  width: 100%;
+  height: 100%;
+}
+
+
+</style>
+<!-- Just an image -->
+<head>
+    <div class="box">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img  src="resources\Szombathely2030_smallicons_white_SVG.svg" style="width: 1000px;margin-bottom: -350px;margin-top: -350px;"alt="SVG">
+            </a>
+        </nav>
+    </div>
+</head>
+<body style="background-color:#131517!important">
+    <div type="container">
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Alfa csapat</span>
+            </label>
+        </div>
+        
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Beta csapat</span>
+            </label>
+        </div>
+        
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Nagyon husszú csapat név</span>
+            </label>
+        </div>
+        
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Peti</span>
+            </label>
+        </div>
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Peti</span>
+            </label>
+        </div>
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Peti</span>
+            </label>
+        </div>
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Peti</span>
+            </label>
+        </div>
+        <div class="box">
+            <label type="item" >
+                <input type="radio" name="options"/>
+                <span>Peti</span>
+            </label>
+        </div>
+        <div class="box">
+            <button type="button" class="btn btn-danger">Küldés</button>    
+        </div>
+    </div>
+</body>
