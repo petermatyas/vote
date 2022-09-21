@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Node JS Express Form Submission Example - ItSolutionStuff.com</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Szavazás {qr_id}</h1>
+      
+      
+
+      <form action="/" method="POST">
+        <div id="choose"></div>
+        <input type="hidden" id="postId" name="id_qr" value=<%= qr_id %> ></input>
+        <input type="submit" class="btn btn-primary"></input>
+      </form>
+
+
+
+      <script>
+        const queryString = window.location.search;
+        console.log('-------------', queryString);
+        //var aa = {id_qr}
+        //console.log('-------------', aa)
+        //const form = document.getElementById("choose");
+
+
+        fetch('http://localhost:5000/api/participants')
+            .then(res => res.json())
+            .then((out) => {
+                console.log('Output: ', out, out.data.length);
+                for (var i = 0; i < out.data.length; i++) {
+                  //console.log('-->',out.data[i].id, out.data[i].name);
+                  
+
+                  output = `<input type="radio" class="btn btn-outline-success" name="selected" id="option`+out.data[i].id+ `" value="`+out.data[i].id+ `" autocomplete="off">
+                            <label class="btn btn-secondary" for="option`+out.data[i].id+ `">`+out.data[i].name+`</label>`
+                  //output = "<p>"+out.data[i].name+"</p>"
+                  //output = 'sdfsdfadasaaaaaaaaaaaaaaaaa'
+                  document.getElementById("choose").innerHTML+=output;
+                }
+
+
+        }).catch(err => console.error('Error:', err));
+      </script>
+
+      <!--<script>
+        $.getJSON('http://localhost:5000/api/participants', function(data) {
+
+            console.log(data)
+    
+    
+            $(".mypanel").html('text');
+        });
+        </script>-->
+    
+
+
+
+      <!--<form action="/" method="POST">
+        <input type="radio" class="btn btn-outline-success" name="selected" id="option1" value="1" autocomplete="off">
+        <label class="btn btn-secondary" for="option2">Radio 1</label>
+
+        <input type="radio" class="btn btn-outline-success" name="selected" id="option2" value="2" autocomplete="off">
+        <label class="btn btn-secondary" for="option2">Radio 2</label>
+
+        <input type="radio" class="btn btn-outline-success" name="selected" id="option3" value="3" autocomplete="off">
+        <label class="btn btn-secondary" for="option2">Radio 3</label>
+
+        <input type="submit" class="btn btn-primary">Submit</input>
+      </form>-->
+  </body>
+</html>
