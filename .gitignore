@@ -1,3 +1,3 @@
 test_*
-.env
+.env*
 node_modules

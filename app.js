@@ -10,12 +10,26 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-const con = mysql.createConnection({
-    host: process.env.host,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.database,
-});
+let con = null
+
+console.log(process.env.APP_ENV)
+if (process.env.APP_ENV == 'developement') {
+    con = mysql.createConnection({
+        host: process.env.HOST,
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+    });
+} else {
+    con = mysql.createConnection({
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+        socketPath : process.env.SOCKET_PATH
+    });
+}
+
+
 
 let ip = "192.168.1.28"
 let validSum = 10
