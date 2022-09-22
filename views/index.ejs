@@ -115,16 +115,11 @@ input[type="radio"] {
     </div>
 
       <script>
-        //const queryString = window.location.search;
 
-        //fetch('http://<%= ip %>:<%= port %>/api/participants')
         fetch('/api/participants')
             .then(res => res.json())
             .then((out) => {
-                //console.log('Output: ', out, out.data.length);
-                for (var i = 0; i < out.data.length; i++) {
-                  //console.log('-->',out.data[i].id, out.data[i].name);
-                  
+                for (var i = 0; i < out.data.length; i++) {                  
 
                   output = `<input type="radio" name="selected" id="option`+out.data[i].id+ `" value="`+out.data[i].id+ `" autocomplete="off" required="required">
                   <div class="box"><label class="label_alternate" for="option`+out.data[i].id+ `">`+out.data[i].name+`</label> </div>`
