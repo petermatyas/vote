@@ -16,7 +16,7 @@ const port = 8080
 const validSum = parseInt(process.env.VALID)
 console.log('validSum:', validSum, )
 
-const con = new sqlite3.Database('app_db.db', (err) => {
+const con = new sqlite3.Database('app_db.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       return console.error(err.message);
     }
