@@ -103,7 +103,8 @@ app.get('/', (req, res) => {
     const url = req.url
     const method = req.method
     const query = req.query
-    console.log(time, method, url, query)
+    //console.log(time, method, url, query)
+    console.log(method, ' id:', query.id, ' valid:', validSum)
 
     if (!req.query.id) {
         return res.sendFile(path.resolve(__dirname, './views/wrongid.html'))
