@@ -1,2 +1,8 @@
 runtime: nodejs
-env: flex
+
+handlers:
+- url: /.*
+  scripts: auto
+
+manual_scaling:
+  instances: 1

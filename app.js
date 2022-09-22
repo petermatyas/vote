@@ -292,6 +292,6 @@ app.get('/api/votetime', (req, res) => {
 })
 
 
-app.listen(5000, () => {
-    console.log('server lisening on port 5000')
+app.listen(8080, () => {
+    console.log('server lisening on port 8080')
 })
