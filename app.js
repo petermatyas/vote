@@ -135,9 +135,9 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
     selected = req.body.selected
     id_qr = req.body.id_qr
+    console.log('POST selected:', selected, ' id_qr:', id_qr)
 
     isVoteTimePromise().then((result) => {
-        
         if (result == 1) {
             if (typeof selected !== 'undefined') {
                 return isIdNotExistPromise(id_qr).then((result) => {

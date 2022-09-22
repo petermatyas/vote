@@ -99,15 +99,13 @@
 
     <script>
       fetch('/api/votetime')
-          .then(res => res.json())
-          .then((out) => {
-              if (out == 0) {
-                //<input type="submit" class="btn btn-primary" value="Kezdődjön" ></input>
-                document.querySelector('#startStopBtn').value = 'Kezdődjön';
-              } else {
-                //<input type="submit" class="btn btn-primary" value="Vége" ></input>
-                document.querySelector('#startStopBtn').value = 'Vége';
-              }
+        .then(res => res.json())
+        .then((out) => {
+            if (out == 0) {
+              document.querySelector('#startStopBtn').value = 'Kezdődjön';
+            } else {
+              document.querySelector('#startStopBtn').value = 'Vége';
+            }
       }).catch(err => console.error('Error:', err));
     </script>
 
