@@ -1,3 +1,4 @@
 test_*
 .env*
 node_modules
+*.db
