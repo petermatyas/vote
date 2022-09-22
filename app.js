@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
-const mysql = require('mysql2')
+//const mysql = require('mysql2')
+const sqlite3 = require('sqlite3')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,69 +11,21 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-let con = null
 
-console.log(process.env.APP_ENV)
-if (process.env.APP_ENV == 'developement') {
-    con = mysql.createConnection({
-        host: process.env.HOST,
-        user: process.env.USER,
-        password: process.env.PASSWORD,
-        database: process.env.DATABASE,
-    });
-} else {
-    con = mysql.createConnection({
-        host: process.env.HOST,
-        user: process.env.USER,
-        password: process.env.PASSWORD,
-        database: process.env.DATABASE,
-        socketPath : process.env.SOCKET_PATH
-    });
-}
-
+//const con = new sqlite3.Database('app_db.db');
+const con = new sqlite3.Database('app_db.db', (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Connected to SQlite database.');
+  });
 
 
 let ip = "192.168.1.28"
 let validSum = 10
 
 
-con.connect(function (err) {
-    if (err) throw err;
-    //console.log("Connected!");
-});
 
-
-
-
-app.get('/create_participants_table', (req, res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS `participants` ( \
-        `id` int NOT NULL AUTO_INCREMENT, \
-        `name` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_bin DEFAULT NULL, \
-        `visible` tinyint DEFAULT NULL, \
-        `logo` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_bin DEFAULT NULL, \
-        PRIMARY KEY (`id`) USING BTREE \
-      )";
-    con.query(sql, (err, res) => {
-        if (err) throw (err);
-        //console.log(res)
-        res.sendFile(path.resolve(__dirname, './views/thanks.html'))
-    });
-});
-
-app.get('/create_votes_table', (req, res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS `votes` ( \
-        `id` int NOT NULL DEFAULT '0', \
-        `id_qr` datetime DEFAULT NULL, \
-        `time` datetime DEFAULT NULL, \
-        `vote_to` int DEFAULT NULL, \
-        PRIMARY KEY (`id`) \
-      )";
-    con.query(sql, (err, res) => {
-        if (err) throw (err);
-        //console.log(res)
-        res.sendFile(path.resolve(__dirname, './views/thanks.html'))
-    });
-});
 
 
 
@@ -106,18 +59,28 @@ function validId(id, valid) {
 function isVoteTimePromise() {
     return new Promise((resolve, reject) => {
         let sql = "SELECT * FROM votestart";
-        con.query(sql, (err, queryRes) => {
-            //if (err) throw (err);
-            if (err) {return reject(err)}
+        
+        con.all(sql, function(err, queryRes) {
             resolve(queryRes[0].ontime)
-        })
+        });
+
     })
 }
 
 function isIdNotExistPromise(new_id_qr) {
     return new Promise(function (resolve,reject) {
         let sql = "SELECT id_qr FROM votes";
-        con.query(sql, (err, queryRes) => {
+        con.all(sql, function(err, queryRes) {
+            if (err) {return reject(err)}
+            for (var i=0; i<queryRes.length; i++) {
+                if (queryRes[i].id_qr == new_id_qr) {
+                    resolve(false)
+                }
+            }
+            resolve(true)
+        });
+
+        /*con.query(sql, (err, queryRes) => {
             //if (err) throw (err);
             if (err) {return reject(err)}
             for (var i=0; i<queryRes.length; i++) {
@@ -126,36 +89,35 @@ function isIdNotExistPromise(new_id_qr) {
                 }
             }
             resolve(true)
-        })
+        })*/
     });
   }
 
 function insertVoteToDbPromise(id_qr, selected) {
     return new Promise(function (resolve, reject) {
         const time = new Date()
-        post = {id_qr:id_qr, time:time, vote_to:selected}
-        let sql = "INSERT INTO votes SET ?";
-        con.query(sql, post, (err, result) => {
-            if (err) throw (err);
+        let sql = "INSERT INTO votes(id_qr, time, vote_to) VALUES(?, ?, ?)";
+        let values = [id_qr, time, selected]
+        con.run(sql, values, function(err, queryRes) {
+            if (err) {return reject(err)} 
             resolve()
-        })
+        });
     })
 }
 
 function updateStartStop(updateTo) {
     return new Promise(function (resolve, reject) {
-        post = {id:0, ontime:updateTo}
-        let sql = "UPDATE votestart SET ?";
-        con.query(sql, post, (err, result) => {
+        //post = {id:0, ontime:updateTo}
+        let sql = "UPDATE votestart SET ontime = ? WHERE id = 0";
+        values = [updateTo]
+        con.run(sql, values, function(err, queryRes) {
+            if (err) {return reject(err)}
+        });
+
+        /*con.query(sql, post, (err, result) => {
             if (err) throw (err);
-            //res.sendFile(path.resolve(__dirname, './views/thanks.html'));
-            //res.redirect('/admin');
-            /*if (isVoteTime() == 0) {
-                res.render('admin', {startstopBtn:'Kezdődjön', ip:ip});
-            } else {
-                res.render('admin', {startstopBtn:'Vége', ip:ip});
-            }*/
-        })
+            
+        })*/
     })
 }
 
@@ -203,7 +165,6 @@ app.post('/', (req, res) => {
     isVoteTimePromise().then((result) => {
         
         if (result == 1) {
-            //console.log('-->', selected, id_qr)
             if (typeof selected !== 'undefined') {
                 return isIdNotExistPromise(id_qr).then((result) => {
                     //console.log('result', result)
@@ -277,10 +238,15 @@ app.post('/admin', (req, res) => {
 
 app.get('/api/participants', (req, res) => {
     let sql = "SELECT id, name FROM participants WHERE participants.visible > 0";
-    con.query(sql, (err, queryRes) => {
+    con.all(sql, function(err, queryRes) {
         if (err) throw (err);
         res.status(200).json({data:queryRes})
     });
+    
+    /*con.query(sql, (err, queryRes) => {
+        if (err) throw (err);
+        res.status(200).json({data:queryRes})
+    });*/
 
 })
 
@@ -292,8 +258,15 @@ app.get('/api/summary', (req, res) => {
                 WHERE participants.visible > 0
                 GROUP BY participants.name     
                 `
+    con.all(sql, function(err, queryRes) {
+        if (err) throw (err);
+        queryRes.sort(function(a, b){
+            return b.votes - a.votes;
+        });
+        res.status(200).json(queryRes)
+    });
 
-    con.query(sql, (err, queryRes) => {
+    /*con.query(sql, (err, queryRes) => {
         if (err) throw (err);
         //console.log(queryRes)
         queryRes.sort(function(a, b){
@@ -301,15 +274,20 @@ app.get('/api/summary', (req, res) => {
         });
 
         res.status(200).json(queryRes)
-    });
+    });*/
 })
 
 app.get('/api/votetime', (req, res) => {
     let sql = "SELECT * FROM votestart";
-    con.query(sql, (err, queryRes) => {
+
+    con.all(sql, function(err, queryRes) {
         if (err) throw (err);
         res.status(200).json(queryRes[0].ontime)
     });
+    /*con.query(sql, (err, queryRes) => {
+        if (err) throw (err);
+        res.status(200).json(queryRes[0].ontime)
+    });*/
 
 })
 
