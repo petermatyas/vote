@@ -10,16 +10,23 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-let con = null
+let validSum = parseInt(process.env.VALID)
 
 
-con = mysql.createConnection({
-    //host: process.env.HOST,
+/*con = mysql.createConnection({
+    host: process.env.HOST,
     user: process.env.USER,
-    //password: process.env.PASSWORD,
+    password: process.env.PASSWORD,
+    //password: '+M}3OEDa5(&9GG^(',
+    database: process.env.DATABASE,
+    //socketPath: 'szhely2030:europe-central2:szhely2030'
+})*/
+
+const con = mysql.createPool({
+    user: process.env.USER,
     password: '+M}3OEDa5(&9GG^(',
     database: process.env.DATABASE,
-    socketPath: 'szhely2030:europe-central2:szhely2030'
+    socketPath: '/cloudsql/szhely2030:europe-central2:szhely2030'
 })
 
 /*con = mysql.createConnection({
@@ -31,10 +38,6 @@ con = mysql.createConnection({
 })*/
 
 
-
-
-//let ip = "192.168.1.28"
-let validSum = parseInt(process.env.VALID)
 
 
 con.connect(function (err) {
