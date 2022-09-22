@@ -40,43 +40,10 @@ const con = mysql.createPool({
 
 
 
-con.connect(function (err) {
+/*con.connect(function (err) {
     if (err) throw err;
     //console.log("Connected!");
-});
-
-
-
-
-app.get('/create_participants_table', (req, res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS `participants` ( \
-        `id` int NOT NULL AUTO_INCREMENT, \
-        `name` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_bin DEFAULT NULL, \
-        `visible` tinyint DEFAULT NULL, \
-        `logo` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_bin DEFAULT NULL, \
-        PRIMARY KEY (`id`) USING BTREE \
-      )";
-    con.query(sql, (err, res) => {
-        if (err) throw (err);
-        //console.log(res)
-        res.sendFile(path.resolve(__dirname, './views/thanks.html'))
-    });
-});
-
-app.get('/create_votes_table', (req, res) => {
-    let sql = "CREATE TABLE IF NOT EXISTS `votes` ( \
-        `id` int NOT NULL DEFAULT '0', \
-        `id_qr` datetime DEFAULT NULL, \
-        `time` datetime DEFAULT NULL, \
-        `vote_to` int DEFAULT NULL, \
-        PRIMARY KEY (`id`) \
-      )";
-    con.query(sql, (err, res) => {
-        if (err) throw (err);
-        //console.log(res)
-        res.sendFile(path.resolve(__dirname, './views/thanks.html'))
-    });
-});
+});*/
 
 
 
