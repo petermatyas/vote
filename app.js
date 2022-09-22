@@ -20,11 +20,16 @@ const con = new sqlite3.Database('app_db.db', (err) => {
     console.log('Connected to SQlite database.');
   });
 
+const os = require("os");
+const hostname = os.hostname();
 
-let ip = "192.168.1.28"
+
+//let ip = "192.168.1.28"
+const ip = hostname
 let validSum = 10
+const port = 8080
 
-
+console.log('hostname', hostname)
 
 
 
@@ -127,7 +132,7 @@ app.get('/', (req, res) => {
     const url = req.url
     const method = req.method
     const query = req.query
-    //console.log(time, method, url, query)
+    console.log(time, method, url, query)
     //id_qr = req.query.id
 
 
@@ -137,10 +142,12 @@ app.get('/', (req, res) => {
     } else {
         if (validId(req.query.id, validSum)) {
             isVoteTimePromise().then((result) => {
+                
                 if (result == 1) {
                     return isIdNotExistPromise(req.query.id).then((result) => {
                         if (result) {
-                            res.render('index', {qr_id:req.query.id, ip:ip});
+                            console.log({qr_id:req.query.id, ip:ip, port:port})
+                            res.render('index', {qr_id:req.query.id, ip:ip, port:port});
                         } else {
                             res.sendFile(path.resolve(__dirname, './views/alreadyvoted.html'));
                         } 
@@ -158,7 +165,6 @@ app.get('/', (req, res) => {
 
 
 app.post('/', (req, res) => {
-
     selected = req.body.selected
     id_qr = req.body.id_qr
 
@@ -194,15 +200,12 @@ app.get('/admin', (req, res) => {
     isVoteTimePromise().then((result) => {
         if (result == 0) {  
             startstopBtnText = 'Kezdődjön'
-            //res.render('admin', {startstopBtn:'Kezdődjön', ip:ip});
         } else {
             startstopBtnText = 'Vége'
-            //res.render('admin', {startstopBtn:'Vége', ip:ip});
         }
-        res.render('admin', {startstopBtn:startstopBtnText, ip:ip});
+        res.render('admin', {startstopBtn:startstopBtnText, ip:ip, port:port});
     })
     
-    //res.render('admin', {startstopBtn:'Kezdődjön', ip:ip});
 
 
     /*let sql = "SELECT * FROM votestart";
@@ -224,10 +227,10 @@ app.post('/admin', (req, res) => {
         //('isVoteTimePromise result', result)
         if (result == 0) {
             updateStartStop(1).then((result) => {})
-            res.render('admin', {startstopBtn:'Vége', ip:ip});
+            res.render('admin', {startstopBtn:'Vége', ip:ip, port:port});
         } else {
             updateStartStop(0).then((result) => {})
-            res.render('admin', {startstopBtn:'Kezdődjön', ip:ip});
+            res.render('admin', {startstopBtn:'Kezdődjön', ip:ip, port:port});
         }
     })
     

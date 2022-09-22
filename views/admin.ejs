@@ -98,7 +98,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <script>
-      fetch('http://localhost:5000/api/votetime')
+      fetch('/api/votetime')
           .then(res => res.json())
           .then((out) => {
               if (out == 0) {
@@ -148,7 +148,7 @@
       </div>   
           <script>
             var table = document.getElementById("resultTable");
-            fetch('http://<%= ip %>:5000/api/summary')
+            fetch('/api/summary')
                 .then(res => res.json())
                 .then((out) => {
                     for (var i=0; i<out.length; i++) {

@@ -115,10 +115,10 @@ input[type="radio"] {
     </div>
 
       <script>
-        const queryString = window.location.search;
-        console.log('-------------', queryString);
+        //const queryString = window.location.search;
 
-        fetch('http://<%= ip %>:5000/api/participants')
+        //fetch('http://<%= ip %>:<%= port %>/api/participants')
+        fetch('/api/participants')
             .then(res => res.json())
             .then((out) => {
                 //console.log('Output: ', out, out.data.length);
