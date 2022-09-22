@@ -12,21 +12,16 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
 
-//const con = new sqlite3.Database('app_db.db');
+const port = 8080
+const validSum = parseInt(process.env.VALID)
+console.log('validSum:', validSum, )
+
 const con = new sqlite3.Database('app_db.db', (err) => {
     if (err) {
       return console.error(err.message);
     }
     console.log('Connected to SQlite database.');
 });
-
-
-
-const port = 8080
-const validSum = parseInt(process.env.valid)
-
-
-
 
 function isNumeric(value) {
     return /^\d+$/.test(value);
