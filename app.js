@@ -33,7 +33,15 @@ console.log('NODE_ENV:', process.env.NODE_ENV)
 })*/
 
 
-//con = null
+
+const con = mysql.createPool({    // WEBES!!!!!!!!!!!!!!!
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+        socketPath: process.env.SOCKET_PATH,
+    })
+
+
 
 if (process.env.NODE_ENV == 'developement') {
     con = mysql.createConnection({
@@ -48,14 +56,7 @@ if (process.env.NODE_ENV == 'developement') {
         if (err) throw err;
         //console.log("Connected!");
     });
-} else if (process.env.NODE_ENV == 'production') {
-    const con = mysql.createPool({    // WEBES!!!!!!!!!!!!!!!
-        user: process.env.USER,
-        password: process.env.PASSWORD,
-        database: process.env.DATABASE,
-        socketPath: process.env.SOCKET_PATH,
-    })
-}
+
 
 
 
