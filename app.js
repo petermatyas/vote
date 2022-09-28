@@ -9,6 +9,8 @@ const bodyParser=require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
 
 let validSum = parseInt(process.env.VALID)
 
@@ -22,28 +24,38 @@ let validSum = parseInt(process.env.VALID)
     //socketPath: 'szhely2030:europe-central2:szhely2030'
 })*/
 
-const con = mysql.createPool({
+/*const con = mysql.createPool({    // WEBES!!!!!!!!!!!!!!!
     user: process.env.USER,
     password: '+M}3OEDa5(&9GG^(',
     database: process.env.DATABASE,
     socketPath: '/cloudsql/szhely2030:europe-central2:szhely2030'
-})
-
-/*con = mysql.createConnection({
-    //host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    socketPath : process.env.SOCKET_PATH
 })*/
 
 
+con = null
 
+if (process.env.NODE_ENV == 'developement') {
+    con = mysql.createConnection({
+        host: '192.168.1.82',
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+        //socketPath : process.env.SOCKET_PATH
+    })
 
-/*con.connect(function (err) {
-    if (err) throw err;
-    //console.log("Connected!");
-});*/
+    con.connect(function (err) {
+        if (err) throw err;
+        //console.log("Connected!");
+    });
+} else if (process.env.NODE_ENV == 'production') {
+    const con = mysql.createPool({    // WEBES!!!!!!!!!!!!!!!
+        user: process.env.USER,
+        password: '+M}3OEDa5(&9GG^(',
+        database: process.env.DATABASE,
+        socketPath: '/cloudsql/szhely2030:europe-central2:szhely2030'
+    })
+}
+
 
 
 
@@ -66,13 +78,6 @@ function validId(id, valid) {
 
 }
 
-/*function isVoteTime() {
-    let sql = "SELECT * FROM votestart";
-    con.query(sql, (err, queryRes) => {
-        if (err) throw (err);
-        return queryRes[0].ontime
-    })
-}*/
 
 function isVoteTimePromise() {
     return new Promise((resolve, reject) => {
@@ -170,6 +175,7 @@ app.post('/', (req, res) => {
 
     selected = req.body.selected
     id_qr = req.body.id_qr
+    console.log('selected', selected, '  id_qr', id_qr)
 
     isVoteTimePromise().then((result) => {
         
@@ -284,7 +290,12 @@ app.get('/api/votetime', (req, res) => {
 
 })
 
-
-app.listen(8080, () => {
-    console.log('server lisening on port 8080')
-})
+if (process.env.NODE_ENV == 'developement') {
+    app.listen(5000, () => {
+        console.log('server lisening on port 5000')
+    })
+} else if (process.env.NODE_ENV == 'production') {
+    app.listen(8080, () => {
+        console.log('server lisening on port 8080')
+    })
+}

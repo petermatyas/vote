@@ -1,97 +1,14 @@
 <!DOCTYPE html>
-<style>
-  
-input[type="radio"] {
-    width: 800px;
-    height: 100px;
-    border-radius: 100px;
-    border: 2px solid #DE004A;
-    background-color: #131517;
-    -webkit-appearance: none; /*to disable the default appearance of radio button*/
-    -moz-appearance: none;
-  }
-  
-  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
-    outline: none; /*to remove the square border on focus*/
-  }
-  
-  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
-    background-color: #DE004A;
-  }
-  
-  input[type="radio"]:checked ~ span:first-of-type {
-    color: black;
-  }
-  
-  
-  
-  
-  .label_alternate {
-    position: relative;
-    display: flex;
-      justify-content: center;
-      font-family: sans-serif;
-      font-size: 50px;
-      color: #FFF;
-    top: -85px;
-    text-align: center;
-    vertical-align: middle;
-  }
-  .btn-alpha {
-    display: flex;
-    
-    justify-content: center;
-    font-family: sans-serif;
-    font-size: 50px;
-    font-weight: bold;
-    background: #0B70DF;
-    color: #FFF;
-    letter-spacing: 1px;
-    line-height: 100px;
-    width: 800px;
-    border: 2px solid #0B70DF;
-    border-radius: 200px;
-    transition: all 0.3s ease 0s;
-  }
-  
-  .btn-alpa:hover {
-    color: #FFF;
-    background: #0964c588;
-    border: 2px solid #0964c588;
-  }
-  .box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 200px;
-    
-  }
-  
-  .box div {
-    width: 100%;
-    height: 100%;
-    margin-bottom: -50px;
-  }
-  .box h1{
-    width: 100%;
-    height: 100%;
-    
-  }
-  .image_style {
-    width: 800px;
-    
-  }
-  
-</style>
 <html lang="en">
-  <head>
-    <title>Szombathely 2030 közönségszavazás</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
-    <h1 class="box">
+
+<head>
+  <title>Szombathely 2030 közönségszavazás</title>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+  <!--<h1 class="box">
       <nav class="navbar navbar-light bg-light">
           <a class="navbar-brand" href="#">
               
@@ -99,35 +16,88 @@ input[type="radio"] {
             </a>
       </nav>
       
-    </h1>
+    </h1>-->
 
-  </head>
-  <body style="background-color:#131517!important">
-    <div class="container"> 
-      
-      
-    <div class="box">
-      <form action="/" method="POST">
-        <div id="choose"></div>
-          <input type="hidden" id="postId" name="id_qr" value=<%= qr_id %> ></input>
-          <input type="submit" class="btn-alpha"></input>
-      </form>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <div class="container">
+    <div class="col">
+      <div class="row">
+        <a class="center" href="#">
+          <img class="center-block"
+            src="https://szombathely2030.hu/wp-content/uploads/2020/12/cropped-cropped-Szombathely2030_bigicons_white_PNG.png"
+            alt="SVG">
+        </a>
+      </div>
+      <div class="row">
+        <!--<div class="box">
+          <div class="box-body">-->
+        <form action="/" method="POST">
+          <input type="hidden" id="postId" name="id_qr" value='<%=qr_id %>'></input>
+
+          <div id="choose" class="col-xl-1  text-center"></div>
+          <!--<div class="d-flex justify-content-center">-->
+          <div class="col-xl-1  text-center">
+            <div class="row">
+              <input type="submit" class="btn text-center btn-submit"></input>
+            </div>  
+          </div>  
+          
+      </div>
     </div>
 
-      <script>
+    </form>
+    <!--</div>
+      </div>-->
+  </div>
 
-        fetch('/api/participants')
-            .then(res => res.json())
-            .then((out) => {
-                for (var i = 0; i < out.data.length; i++) {                  
+  </div>
+  </div>
 
-                  output = `<input type="radio" name="selected" id="option`+out.data[i].id+ `" value="`+out.data[i].id+ `" autocomplete="off" required="required">
-                  <div class="box"><label class="label_alternate" for="option`+out.data[i].id+ `">`+out.data[i].name+`</label> </div>`
-                  document.getElementById("choose").innerHTML+=output;
-                }
-        }).catch(err => console.error('Error:', err));
-      </script>
 
-      
-  </body>
+  <script>
+
+    fetch('/api/participants')
+      .then(res => res.json())
+      .then((out) => {
+        for (var i = 0; i < out.data.length; i++) {
+          //output = `<input type="radio" name="selected" id="option` + out.data[i].id + `" value="` + out.data[i].id + `" autocomplete="off" required="required">
+          //          <div class="box"><label class="label_alternate" for="option`+ out.data[i].id + `">` + out.data[i].name + `</label> </div>`
+          //output = `<input class="btn-check" type="radio" name="selected" id="option` + out.data[i].id + `" value="` + out.data[i].id + `" autocomplete="off" required="required">
+          //          <label class="btn btn-outline-primary" for="option`+ out.data[i].id + `">` + out.data[i].name + `</label>
+          //          `
+          //output = `<input type="radio" name="selected" id="option` + out.data[i].id + `" value="` + out.data[i].id + `" autocomplete="off" required="required">
+          //          <div class="box"><label class="label_alternate" for="option`+ out.data[i].id + `">` + out.data[i].name + `</label> </div>`
+
+          //output = `<label class="form-check-label" for="option`+out.data[i].id+`">
+          //          <input type="radio" class="form-check-input" name="selected" id="option`+ out.data[i].id +`" value="`+ out.data[i].id +`>`+out.data[i].name+`</label>`
+          //output =  `<input class="btn-check" type="radio" class="form-check-input" name="selected" value=`+ out.data[i].id +` id="option`+ out.data[i].id +`">
+          //           <label class="btn btn-secondary" for="option`+ out.data[i].id +`">`+ out.data[i].name +`</label>`
+
+          output = `<div class="row  text-center">
+                      <label class="btn btn-outline">
+                        <input type="radio" name="selected" id="`+out.data[i].id+`" value="`+out.data[i].id+`" autocomplete="off">`+ out.data[i].name +`
+                      </label>
+                    </div>`
+
+
+          document.getElementById("choose").innerHTML += output;
+        }
+      }).catch(err => console.error('Error:', err));
+  </script>
+
+
+
+
+
+  <div class="container">
+
+
+
+
+</body>
+
 </html>
