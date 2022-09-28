@@ -14,6 +14,7 @@ app.use(express.static(__dirname + '/public'));
 
 let validSum = parseInt(process.env.VALID)
 
+console.log('NODE_ENV:', process.env.NODE_ENV)
 
 /*con = mysql.createConnection({
     host: process.env.HOST,
@@ -32,7 +33,7 @@ let validSum = parseInt(process.env.VALID)
 })*/
 
 
-con = null
+//con = null
 
 if (process.env.NODE_ENV == 'developement') {
     con = mysql.createConnection({
@@ -50,9 +51,9 @@ if (process.env.NODE_ENV == 'developement') {
 } else if (process.env.NODE_ENV == 'production') {
     const con = mysql.createPool({    // WEBES!!!!!!!!!!!!!!!
         user: process.env.USER,
-        password: '+M}3OEDa5(&9GG^(',
+        password: process.env.PASSWORD,
         database: process.env.DATABASE,
-        socketPath: '/cloudsql/szhely2030:europe-central2:szhely2030'
+        socketPath: process.env.SOCKET_PATH,
     })
 }
 
