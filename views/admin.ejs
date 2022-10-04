@@ -23,7 +23,7 @@
         <div class="row">
           <form action="/admin" method="POST">
             <div id="choose">
-              <input type="submit" class="btn btn-primary" value="<%= startstopBtn %>" ></input>
+              <input type="submit" id="startStopBtn" class="btn btn-primary" value="<%= startstopBtn %>" ></input>
             </div>
             
           </form>
@@ -72,9 +72,11 @@
         .then(res => res.json())
         .then((out) => {
             if (out == 0) {
-              document.querySelector('#startStopBtn').value = 'Kezdődjön';
+              document.getElementById("startStopBtn").textContent="Kezdődjön";
+              //document.querySelector('#startStopBtn').value = 'Kezdődjön';
             } else {
-              document.querySelector('#startStopBtn').value = 'Vége';
+              document.getElementById("startStopBtn").textContent="Vége";
+              //document.querySelector('#startStopBtn').value = 'Vége';
             }
       }).catch(err => console.error('Error:', err));
 
