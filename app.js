@@ -66,7 +66,7 @@ function isVoteTimePromise() {
         let sql = "SELECT * FROM votestart";
         con.query(sql, (err, queryRes) => {
             //if (err) throw (err);
-            if (err) { return reject(err) }
+            if (err) { reject(err) }
             resolve(queryRes[0].ontime)
         })
     })
