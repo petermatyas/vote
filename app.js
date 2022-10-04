@@ -17,13 +17,12 @@ let validSum = parseInt(process.env.VALID)
 console.log('NODE_ENV:', process.env.NODE_ENV)
 
 
-const con = mysql.createPool({    // WEB!!!!!!!!!!!!!!!
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    socketPath: process.env.SOCKET_PATH,
-})
-
+//const con = mysql.createPool({    // WEB!!!!!!!!!!!!!!!
+//    user: process.env.USER,
+//    password: process.env.PASSWORD,
+//    database: process.env.DATABASE,
+//    socketPath: process.env.SOCKET_PATH,
+//})
 
 
 if (process.env.NODE_ENV == 'developement') {

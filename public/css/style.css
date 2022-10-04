@@ -30,7 +30,8 @@ input[type="radio"]{
 }
 
 .btn-outline:hover,
-.btn-outline:focus{
+.btn-outline:focus,
+.btn-outline:checked {
     background: #dc004a;
     color: #ffffff;
     border-color: #dc004a;

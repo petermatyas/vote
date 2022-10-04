@@ -6,18 +6,6 @@
   <meta charset="UTF-8">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-  <!--<h1 class="box">
-      <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="#">
-              
-                <img class="image_style"  src="https://szombathely2030.hu/wp-content/uploads/2020/12/cropped-cropped-Szombathely2030_bigicons_white_PNG.png"alt="SVG">
-            </a>
-      </nav>
-      
-    </h1>-->
-
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -79,7 +67,7 @@
 
           output = `<div class="row  text-center">
                       <label class="btn btn-outline">
-                        <input type="radio" name="selected" id="`+out.data[i].id+`" value="`+out.data[i].id+`" autocomplete="off">`+ out.data[i].name +`
+                        <input type="radio" name="selected" id="`+out.data[i].id+`" value="`+out.data[i].id+`" autocomplete="off" required="required">`+ out.data[i].name +`
                       </label>
                     </div>`
 

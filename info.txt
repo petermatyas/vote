@@ -1,0 +1,36 @@
+gcloud sql connect szhely2030 --user=robot
+pwd: UgP0cqu~D0V0v$au
+
+use szhely2030;
+show szhely2030;
+DELETE FROM votes;
+
+UPDATE participants SET name='AIDY' WHERE id=1; 
+UPDATE participants SET name='ALLRYS' WHERE id=2; 
+UPDATE participants SET name='D&L the Connect' WHERE id=3; 
+UPDATE participants SET name='Dimedser' WHERE id=4; 
+UPDATE participants SET name='EgészségeSEK' WHERE id=5; 
+UPDATE participants SET name='H3spways' WHERE id=6; 
+UPDATE participants SET name='iPASy' WHERE id=7; 
+UPDATE participants SET name='myRisk' WHERE id=8; 
+
+
+
+
+gcloud app deploy
+gcloud app logs tail -s default
+gcloud app browse
+
+
+
+
+
+.env server:
+NODE_ENV = 'production'
+USER = 'robot'
+PASSWORD = 'UgP0cqu~D0V0v$au'
+DATABASE = 'szhely2030'
+HOST = 'localhost'
+SOCKET_PATH = '/cloudsql/szhely2030:europe-central2:szhely2030'
+VALID = 42
+PORT = 8081
