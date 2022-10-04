@@ -5,32 +5,29 @@
   <title>Szombathely 2030 közönségszavazás</title>
   <meta charset="UTF-8">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <div class="container">
+  <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+
+  <div class="container text-center">
     <div class="col">
       <div class="row">
-        <a class="center" href="#">
-          <img class="center-block"
-            src="https://szombathely2030.hu/wp-content/uploads/2020/12/cropped-cropped-Szombathely2030_bigicons_white_PNG.png"
-            alt="SVG">
-        </a>
+        <img class="image_style" src=".\images\szhely2030_white_logo.png" alt="logo">
       </div>
-      <div class="row">
+      <div class="d-flex justify-content-center">
         <!--<div class="box">
           <div class="box-body">-->
         <form action="/" method="POST">
           <input type="hidden" id="postId" name="id_qr" value='<%=qr_id %>'></input>
 
-          <div id="choose" class="col-xl-1  text-center"></div>
+          <div id="choose" class="col"></div>
           <!--<div class="d-flex justify-content-center">-->
-          <div class="col-xl-1  text-center">
+          <div class="col">
             <div class="row">
-              <input type="submit" class="btn text-center btn-submit"></input>
+              <input type="submit" class="btn btn-submit text-center"></input>
             </div>  
           </div>  
           
@@ -66,7 +63,7 @@
           //           <label class="btn btn-secondary" for="option`+ out.data[i].id +`">`+ out.data[i].name +`</label>`
 
           output = `<div class="row  text-center">
-                      <label class="btn btn-outline">
+                      <label class="btn">
                         <input type="radio" name="selected" id="`+out.data[i].id+`" value="`+out.data[i].id+`" autocomplete="off" required="required">`+ out.data[i].name +`
                       </label>
                     </div>`
